@@ -1,0 +1,15 @@
+_type: prompt
+input_variables:
+    ["system_prompt", "examples", "user_message"]
+template:
+    "<s>[INST] <<SYS>>
+
+    {system_prompt}
+
+
+    {examples}
+
+    <</SYS>>
+
+
+    {user_message}[/INST] "

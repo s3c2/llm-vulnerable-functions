@@ -1,0 +1,1 @@
+I want you to act as a vulnerability fix detection system. Determine if the following git-diff fixed a vulnerability. Respond with only 'True' or 'False.'

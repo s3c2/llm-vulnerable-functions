@@ -1,0 +1,20 @@
+_type: prompt
+input_variables:
+    ["user_details", "user_functions", "user_code"]
+template: 
+    "Review the Fixed Vulnerability Description and GIT-DIFF carefully to determine if the GIT-DIFF fixed the vulnerabilitity. Provide an explanation (less than 100 words), then make a final decision of 'True' (if partially related or fully related to fixing the vulnerability) or 'False' (if fully unrelated).
+    
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    - Fixed Vulnerability Description: ``{details}''
+
+    - GIT-DIFF Changed Functions: ``{functions}''
+
+    - GIT-DIFF: 
+    
+    =======================================
+
+    {code}
+
+    =======================================
+    "

@@ -1,0 +1,498 @@
+id,details
+GO-2020-0016,"An attacker can construct a series of bytes such that calling Reader.Read on the bytes could cause an infinite loop. If parsing user supplied input, this may be used as a denial of service vector."
+GO-2022-1008,"SGID programs executed in a container can access files that have negative group permissions for the user's primary group.
+
+Consider a file which is owned by user u1 and group g1, permits user and other read access, and does NOT permit group read access. This file is readable by u1 and all other users except for ones in group g1.
+
+A program with the set-group-ID (SGID) bit set assumes the primary group of the program's group when it executes.
+
+A user with the primary group g1 who executes an SGID program owned by group g2 should not be able to access the file described above. While the program executes with the primary group g2, the group g1 should remain in its supplementary groups, blocking access to the file.
+
+Buildah does not correctly add g1 to the supplementary groups in this scenario, permitting unauthorized access."
+GO-2023-2116,"A cross-site request forgery vulnerability can allow an attacker to obtain tokens and forge malicious requests on behalf of a user. This can lead to unauthorized actions being taken on the user's behalf, potentially compromising the security and integrity of the application.
+
+The vulnerability is caused by improper validation and enforcement of CSRF tokens within the application. The CSRF token is validated against tokens in storage but was is not tied to the original requestor that generated it, allowing for token reuse."
+GO-2023-2115,"A cross-site request forgery vulnerability in this package can allow an attacker to inject arbitrary values and forge malicious requests on behalf of a user. The attacker may inject arbitrary values without any authentication, or perform various malicious actions on behalf of an authenticated user, potentially compromising the security and integrity of the application.
+
+The vulnerability is caused by improper validation and enforcement of CSRF tokens within the application. For 'safe' methods, the token is extracted from the cookie and saved to storage without further validation or sanitization. In addition, the CSRF token is validated against tokens in storage but not associated with a session, nor by using a Double Submit Cookie Method, allowing for token reuse."
+GO-2022-0253,"The HTTPFetcher.GetXML function reads a response of unlimited size into memory, permitting resource exhaustion."
+GO-2020-0019,"An attacker can craft malicious WebSocket frames that cause an integer overflow in a variable which tracks the number of bytes remaining. This may cause the server or client to get stuck attempting to read frames in a loop, which can be used as a denial of service vector."
+GO-2022-1002,ParseVector can panic when provided with invalid input.
+GO-2023-1597,Improper sanitization and filtering of HTML entities in user input can lead to cross-site scripting (XSS) attacks where arbitrary JavaScript code is executed in the browser.
+GO-2022-0534,"Validation of Gitlab requests can leak secrets.
+
+The package github.com/runatlantis/atlantis/server/controllers/events uses a non-constant time comparison for secrets while validating a Gitlab request. This allows for a timing attack where an attacker can recover a secret and then forge the request."
+GO-2021-0079,"A malformed query can cause an out-of-bounds panic due to improper validation of arguments. If processing queries from untrusted parties, this may be used as a vector for denial of service attacks."
+GO-2022-0701,"Crafted object type names can cause directory traversal in Kubernetes.
+
+Object names are not validated before being passed to etcd. This allows attackers to write arbitrary files via a crafted object name, hence causing directory traversal vulnerability in Kubernetes, as used in Red Hat OpenShift Enterprise 3.0."
+GO-2021-0085,"AppArmor restrictions may be bypassed due to improper validation of mount targets, allowing a malicious image to mount volumes over e.g. /proc."
+GO-2021-0075,"Due to improper argument validation in RPC messages, a maliciously crafted message can cause a panic, leading to denial of service."
+GO-2021-0265,A maliciously crafted path can cause Get and other query functions to consume excessive amounts of CPU and time.
+GO-2021-0107,"Web Sockets do not execute any AuthenticateMethod methods which may be set, leading to a nil pointer dereference if the returned UserData pointer is assumed to be non-nil, or authentication bypass.
+
+This issue only affects WebSockets with an AuthenticateMethod hook. Request handlers that do not explicitly use WebSockets are not vulnerable."
+GO-2021-0100,"Due to a goroutine deadlock, using github.com/containers/storage/pkg/archive.DecompressStream on a xz archive returns a reader which will hang indefinitely when Close is called. An attacker can use this to cause denial of service if they are able to cause the caller to attempt to decompress an archive they control."
+GO-2023-2052,The Ctx.IsFromLocal function can incorrectly report a request as being sent from localhost when the request contains an X-Forwarded-For header containing a localhost IP address.
+GO-2022-0463,"Routes in the beego HTTP router can match unintended patterns. This overly-broad matching may permit an attacker to bypass access controls.
+
+For example, the pattern ""/a/b/:name"" can match the URL ""/a.xml/b/"". This may bypass access control applied to the prefix ""/a/""."
+GO-2022-0252,OctoRPKI crashes when a repository returns an ROA with a IP address that contains too many bits.
+GO-2020-0021,"Due to improper sanitization of user input, a number of methods are vulnerable to SQL injection if used with user input that has not been sanitized by the caller."
+GO-2020-0028,"Due to a nil pointer dereference, parsing a malformed zone file containing TA records may cause a panic. If parsing user supplied input, this may be used as a denial of service vector."
+GO-2020-0035,"Due to improper path sanitization, archives containing relative file paths can cause files to be written (or overwritten) outside of the target directory."
+GO-2022-0370,"Websocket client connections are vulnerable to man-in-the-middle attacks via DNS spoofing.
+
+When looking up a WSS endpoint using a DNS TXT record, the server TLS certificate is incorrectly validated using the name of the server returned by the TXT record request, not the name of the the server being connected to. This permits any attacker that can spoof a DNS record to redirect the user to a server of their choosing.
+
+Providing a *tls.Config with a ServerName field set to the correct destination hostname will avoid this issue."
+GO-2020-0017,"If a JWT contains an audience claim with an array of strings, rather than a single string, and MapClaims.VerifyAudience is called with req set to false, then audience verification will be bypassed, allowing an invalid set of audiences to be provided."
+GO-2022-0400,A race condition can cause incorrect HTTP request routing.
+GO-2022-1184,"The manipulation of the argument path to docconv.{ConvertPDF,PDFHasImage} leads to os command injection."
+GO-2022-0643,"A local attacker can cause a panic if they are able to send arbitrary traffic to a monitored port, due to an out of bounds read."
+GO-2022-1165,"Applications that use the repo package in the Helm SDK to parse an index file can suffer a Denial of Service when that input causes a panic that cannot be recovered from.
+
+The repo package contains a handler that processes the index file of a repository. For example, the Helm client adds references to chart repositories where charts are managed. The repo package parses the index file of the repository and loads it into memory. Some index files can cause array data structures to be created causing a memory violation.
+
+The Helm Client will panic with an index file that causes a memory violation panic. Helm is not a long running service so the panic will not affect future uses of the Helm client."
+GO-2022-1052,"Mishandling of timestamps during consensus process can cause a denial of service.
+
+While reaching consensus, different tendermint nodes can observe a different timestamp for a consensus evidence. This mismatch can cause the evidence to be invalid, upon which the node producing the evidence will be asked to generate a new evidence. This new evidence will be the same, which means it will again be rejected by other nodes involved in the consensus. This loop will continue until the peer nodes decide to disconnect from the node producing the evidence."
+GO-2022-0346,A maliciously crafted RPM file can cause the Scanner.Scan function to write files with arbitrary contents to arbitrary locations on the local filestem.
+GO-2020-0050,"Due to the behavior of encoding/xml, a crafted XML document may cause XML Digital Signature validation to be entirely bypassed, causing an unsigned document to appear signed."
+GO-2022-1166,"Certain JSON schema validation files can cause a Helm Client to panic, leading to a possible denial of service.
+
+The chartutil package contains a parser that loads a JSON Schema validation file. For example, the Helm client when rendering a chart will validate its values with the schema file. The chartutil package parses the schema file and loads it into memory, but some schema files can cause array data structures to be created causing a memory violation.
+
+The Helm Client will panic with a schema file that causes a memory violation panic. Helm is not a long running service so the panic will not affect future uses of the Helm client."
+GO-2022-0587,"An issue in ast.Parser in Open Policy Agent causes the application to incorrectly interpret expressions, allowing a Denial of Service (DoS) via triggering out-of-range memory access."
+GO-2021-0064,Authorization tokens may be inappropriately logged if the verbosity level is set to a debug level.
+GO-2023-1874,"Due to the misuse of log.Fatalf, Coraza may crash after receiving crafted requests from attackers."
+GO-2021-0076,A malicious JSON patch can cause a panic due to an out-of-bounds write attempt. This can be used as a denial of service vector if exposed to arbitrary user input.
+GO-2020-0005,"Malformed WALs can be constructed such that WAL.ReadAll can cause attempted out of bounds reads, or creation of arbitrarily sized slices, which may be used as a DoS vector."
+GO-2020-0037,"Due to support of Gzip compression in request bodies, as well as a lack of limiting response body sizes, a malicious server can cause a client to consume a significant amount of system resources, which may be used as a denial of service vector."
+GO-2022-1129,Authentication bypass is possible when processing SAML responses containing multiple Assertion elements.
+GO-2022-0379,"Systems that rely on digest equivalence for image attestations may be vulnerable to type confusion.
+
+A maliciously crafted OCI Container Image can cause registry clients to parse the same image in two different ways without modifying the image's digest, invalidating the common pattern of relying on container image digests for equivalence.
+
+This problem has been addressed in newer versions by improving validation in manifest unmarshalling."
+GO-2021-0066,Attempting to read a malformed .dockercfg may cause secrets to be inappropriately logged.
+GO-2022-0945,"The go-jose library suffers from multiple signatures exploitation. When validating a signed message, the API did not indicate which signature was valid, which creates the potential for confusion."
+GO-2020-0009,"On 32-bit platforms an attacker can manipulate a ciphertext encrypted with AES-CBC with HMAC such that they can control how large the input buffer is when computing the HMAC authentication tag. This can can allow a manipulated ciphertext to be verified as authentic, opening the door for padding oracle attacks."
+GO-2020-0010,When using ECDH-ES an attacker can mount an invalid curve attack during decryption as the supplied public key is not checked to be on the same curve as the receivers private key.
+GO-2023-1664,Denial of service via deflate compression bomb in github.com/crewjam/saml
+GO-2022-0572,An issue was discovered in the route lookup process in beego which attackers to bypass access control.
+GO-2023-2119,"A a third party may derive a valid proof from a valid initial tuple {proof, public_inputs}, corresponding to the same public inputs as the initial proof. This vulnerability is due to randomness being generated using a small part of the scratch memory describing the state, allowing for degrees of freedom in the transcript. Note that the impact is limited to the PlonK verifier smart contract."
+GO-2022-0762,An XSS injection was possible because the sanitization of the Cyrillic character i bypass a protection mechanism against user-inputted HTML elements such as the <script> tag.
+GO-2022-0355,"The fasthttp.FS request handler is vulnerable to directory traversal attacks on Windows systems, and can serve files from outside the provided root directory.
+
+URL path normalization does not handle Windows path separators (backslashes), permitting an attacker to construct requests with relative paths."
+GO-2022-0957,A maliciously crafted JSON input can cause a denial of service attack.
+GO-2022-0274,An attacker with partial control over the bind mount sources of a new container can bypass namespace restrictions.
+GO-2021-0106,"Due to improper path sanitization, archives containing relative file paths can cause files to be written (or overwritten) outside of the target directory."
+GO-2022-0574,An issue in the AST parser of Open Policy Agent makes it possible for attackers to cause a Denial of Service attack from a crafted input.
+GO-2020-0008,DNS message transaction IDs are generated using math/rand which makes them relatively predictable. This reduces the complexity of response spoofing attacks against DNS clients.
+GO-2022-1045,The Singularity Image Format (SIF) reference implementation does not verify that the hash algorithm(s) used are cryptographically secure when verifying digital signatures.
+GO-2022-1130,"If an attacker has access to a Prometheus web.yml file and users' bcrypted passwords, it would be possible to bypass security via the built-in authentication cache."
+GO-2023-1717,Users can create a keyspace containing `/`. Future attempts to view keyspaces from some tools (including VTAdmin and `vtctldclient GetKeyspaces`) receive an error.
+GO-2023-1574,"Supplementary groups are not set up properly inside a container. If an attacker has direct access to a container and manipulates their supplementary group access, they may be able to use supplementary group access to bypass primary group restrictions in some cases and potentially escalate privileges in the container. Uses of the containerd client library may also have improperly setup supplementary groups."
+GO-2021-0103,"Due to improper bounds checking, certain mathematical operations can cause a panic via an out of bounds read. If this package is used to process untrusted user inputs, this may be used as a vector for a denial of service attack."
+GO-2020-0041,"Due to improper path sanitization, archives containing relative file paths can cause files to be written (or overwritten) outside of the target directory."
+GO-2021-0228,"The ExtractTo function doesn't securely escape file paths in zip archives which include leading or non-leading "".."". This allows an attacker to add or replace files system-wide."
+GO-2022-0246,"The ROAEntry.Validate function fails to perform bounds checks on the MaxLength field, allowing invalid values to pass validation."
+GO-2021-0065,Authorization tokens may be inappropriately logged if the verbosity level is set to a debug level.
+GO-2023-2077,Authentication bypass in github.com/sagernet/sing
+GO-2020-0020,"Usage of the CORS handler may apply improper CORS headers, allowing the requester to explicitly control the value of the Access-Control-Allow-Origin header, which bypasses the expected behavior of the Same Origin Policy."
+GO-2021-0094,Protections against directory traversal during archive extraction can be bypassed by chaining multiple symbolic links within the archive. This allows a malicious attacker to cause files to be created outside of the target directory. Additionally if the attacker is able to read extracted files they may create symbolic links to arbitrary files on the system which the unpacker has permissions to read.
+GO-2023-1494,There is a potential for SQL injection through manipulation of the sqlStatement argument.
+GO-2021-0109,"Due to improper error handling, an error with the underlying token storage may cause a user to believe a token has been successfully revoked when it is in fact still valid. An attackers ability to exploit this relies on an ability to trigger errors in the underlying storage."
+GO-2021-0112,"Due to improper input sanitization when marshalling Go objects into BSON, a maliciously constructed Go structure could allow an attacker to inject additional fields into a MongoDB document. Users are affected if they use this package to handle untrusted user input."
+GO-2022-0706,Sensitive HTTP headers may not be properly sanitized before being sent to the APM server if the program panics.
+GO-2021-0051,"Due to improper sanitization of user input on Windows, the static file handler allows for directory traversal, allowing an attacker to read files outside of the target directory that the server has permission to read."
+GO-2022-0422,The dag-pb codec can panic when decoding invalid blocks.
+GO-2020-0048,"LoadURL does not check the Content-Type of loaded resources, which can cause a panic due to nil pointer deference if the loaded resource is not XML. If user supplied URLs are loaded, this may be used as a denial of service vector."
+GO-2020-0039,"Due to improper request sanitization, a specifically crafted URL can cause the static file handler to redirect to an attacker chosen URL, allowing for open redirect attacks."
+GO-2023-2048,Certain rootfs and path combinations result in generated paths that are outside of the provided rootfs on Windows.
+GO-2022-0251,OctoRPKI crashes when a repository returns an invalid ROA that is only an encoded NUL character (\0).
+GO-2023-1515,"A denial of service (DoS) vulnerability exists in the Wrangler Git package. Specially crafted Git credentials can result in a denial of service (DoS) attack on an application that uses Wrangler due to the exhaustion of the available memory and CPU resources.
+
+This is caused by a lack of input validation of Git credentials before they are used, which may lead to a denial of service in some cases. This issue can be triggered when accessing both private and public Git repositories.
+
+A workaround is to sanitize input passed to the Git package to remove potential unsafe and ambiguous characters. Otherwise, the best course of action is to update to a patched Wrangler version."
+GO-2022-0586,"Malicious HTTP responses can cause a number of misbehaviors, including overwriting local files, resource exhaustion, and panics.
+
+* Protocol switching, endless redirect, and configuration bypass are possible through abuse of custom HTTP response header processing.
+
+* Arbitrary host access is possible through go-getter path traversal, symlink processing, and command injection flaws.
+
+* Asymmetric resource exhaustion can occur when go-getter processes malicious HTTP responses.
+
+* A panic can be triggered when go-getter processed password-protected ZIP files."
+GO-2020-0027,"After dropping and then elevating process privileges euid, guid, and groups are not properly restored to their original values, allowing an unprivileged user to gain membership in the root group."
+GO-2021-0101,"Due to an improper bounds check, parsing maliciously crafted messages can cause panics. If this package is used to parse untrusted input, this may be used as a vector for a denial of service attack."
+GO-2020-0006,"An attacker may prevent TCP connections to a Server by opening a connection and leaving it idle, until the connection is closed by the server no other connections will be accepted."
+GO-2021-0070,"GetExecUser in the github.com/opencontainers/runc/libcontainer/user package will improperly interpret numeric UIDs as usernames. If the method is used without verifying that usernames are formatted as expected, it may allow a user to gain unexpected privileges."
+GO-2023-2074,Parser out-of-bounds read vulnerability caused by a malformed markdown input
+GO-2021-0237,Attackers may be able to craft phishing links and other open redirects by exploiting PowerMux's trailing slash redirection feature. This may lead to users being redirected to untrusted sites after following an attacker crafted link.
+GO-2022-0978,"Open Policy Agent (OPA) is an open source, general-purpose policy engine. The Rego compiler provides a (deprecated) `WithUnsafeBuiltins` function, which allows users to provide a set of built-in functions that should be deemed unsafe and rejected by the compiler if encountered in the policy compilation stage.
+
+A bypass of this protection is possible when using the `with` keyword to mock a built-in function that isn't taken into account by `WithUnsafeBuiltins`."
+GO-2023-1713,An attacker can craft a remote request to upload a file to `/group1/upload` that uses path traversal to instead write the file contents to an attacker controlled path on the server.
+GO-2023-2133,"Without any authorization rules in the nats-server, users can connect without authentication.
+
+Before nats-server 2.2.0, all authentication and authorization rules for a nats-server lived in an ""authorization"" block, defining users. With nats-server 2.2.0 all users live inside accounts. When using the authorization block, whose syntax predates this, those users will be placed into the implicit global account, ""$G"". Users inside accounts go into the newer ""accounts"" block.
+
+If an ""accounts"" block is defined, in simple deployment scenarios this is often used only to enable client access to the system account. When the only account added is the system account ""$SYS"", the nats-server would create an implicit user in ""$G"" and set it as the `no_auth_user` account, enabling the same ""without authentication"" logic as without any rules.
+
+This preserved the ability to connect simply, and then add one authenticated login for system access.
+
+But with an ""authorization"" block, this is wrong. Users exist in the global account, with login rules. And in simple testing, they might still connect fine without administrators seeing that authentication has been disabled.
+
+In the fixed versions, using an ""authorization"" block will inhibit the implicit creation of a ""$G"" user and setting it as the `no_auth_user` target. In unfixed versions, just creating a second account, with no users, will also inhibit this behavior."
+GO-2022-0603,An issue in the Unmarshal function can cause a program to panic when attempting to deserialize invalid input.
+GO-2023-1573,"When importing an OCI image, there was no limit on the number of bytes read from the io.Reader passed into ImportIndex. A large number of bytes could be read from this and could cause a denial of service."
+GO-2023-1872,OpenFGA is vulnerable to a denial of service attack when certain Check and ListObjects calls are executed against authorization models that contain circular relationship definitions.
+GO-2023-1534,"Unmarshalling a Hello Verify request can panic, which could allow a denial of service."
+GO-2020-0042,"Due to improper path sanitization, RPMs containing relative file paths can cause files to be written (or overwritten) outside of the target directory."
+GO-2023-1859,AES-CBC decryption is vulnerable to a timing attack which may permit an attacker to recover the plaintext of JWE data.
+GO-2022-0646,"The Go AWS S3 Crypto SDK contains vulnerabilities that can permit an attacker with write access to a bucket to decrypt files in that bucket.
+
+Files encrypted by the V1 EncryptionClient using either the AES-CBC content cipher or the KMS key wrap algorithm are vulnerable. Users should migrate to the V1 EncryptionClientV2 API, which will not create vulnerable files. Old files will remain vulnerable until re-encrypted with the new client."
+GO-2021-0110,"Uniqueness of JWT IDs (jti) are not checked, allowing the JWT to be replayed."
+GO-2022-0460,An attacker can send packets that send the DTLS server or client into an infinite loop.
+GO-2022-0438,"The getter package can write SSH credentials to its logfile, exposing credentials to local users able to read the logfile."
+GO-2022-1201,"Client secret checks are vulnerable to timing attacks, which could permit an attacker to determine client secrets."
+GO-2023-2101,Incorrect exponentiation results in github.com/consensys/gnark-crypto
+GO-2023-1611,fsutil.Unzip is vulnerable to path traversal attacks due to improper validation of paths.
+GO-2022-0244,"Random data used to create UUIDs can contain zeros, resulting in predictable UUIDs and possible collisions."
+GO-2021-0105,"Due to an incorrect state calculation, a specific set of transactions could cause a consensus disagreement, causing users of this package to reject a canonical chain."
+GO-2022-0248,"Manifest path extraction is vulnerable to directory traversal attacks.
+
+The ExtractPathManifest function permits file paths containing relative directory components (""..""), permitting files to reference arbitrary locations on the filesystem."
+GO-2023-1559,"Trying to read malformed HAMT sharded directories can cause panics and virtual memory leaks. If you are reading untrusted user input, an attacker can then trigger a panic.
+
+This is caused by a bogus fanout parameter in the HAMT directory nodes.
+
+There are no known workarounds (users are advised to upgrade)."
+GO-2023-1623,"An out of memory panic vulnerability exists in the crossplane-runtime libraries.
+
+Applications that use the Paved type's SetValue method with user-provided input that is not properly validated might use excessive amounts of memory and cause an out of memory panic.
+
+In the fieldpath package, the Paved.SetValue method sets a value on the Paved object according to the provided path, without any validation. This allows setting values in slices at any provided index, which grows the target array up to the requested index. The index is currently capped at max uint32 (4294967295), a large value. If callers do not validate paths' indexes on their own, this could allow users to consume arbitrary amounts of memory.
+
+Applications that do not use the Paved type's SetValue method are not affected.
+
+Users unable to upgrade can work around this issue by parsing and validating the path before passing it to the SetValue method of the Paved type, constraining the index size as deemed appropriate."
+GO-2021-0063,"Due to a nil pointer dereference, a maliciously crafted RPC message can cause a panic. If handling RPC messages from untrusted clients, this may be used as a denial of service vector."
+GO-2020-0022,"LZ4 bindings use a deprecated C API that is vulnerable to memory corruption, which could lead to arbitrary code execution if called with untrusted user input."
+GO-2023-1765,"When sampling randomness for a shared secret, the implementation of Kyber and FrodoKEM, did not check whether crypto/rand.Read() returns an error. In rare deployment cases (error thrown by the Read() function), this could lead to a predictable shared secret.
+
+The tkn20 and blindrsa components did not check whether enough randomness was returned from the user provided randomness source. Typically the user provides crypto/rand.Reader, which in the vast majority of cases will always return the right number random bytes. In the cases where it does not, or the user provides a source that does not, the blinding for blindrsa is weak and integrity of the plaintext is not ensured in tkn20."
+GO-2023-1566,A malicious actor can introduce links starting with a `javascript:` scheme due to insufficient checks on external resources. This can be used as a part of Cross-site Scripting (XSS) attack.
+GO-2020-0038,"Due to improper verification of packets, unencrypted packets containing application data are accepted after the initial handshake. This allows an attacker to inject arbitrary data which the client/server believes was encrypted, despite not knowing the session key."
+GO-2021-0087,"A race while mounting volumes allows a possible symlink-exchange attack, allowing a user whom can start multiple containers with custom volume mount configurations to escape the container."
+GO-2021-0058,"Due to the behavior of encoding/xml, a crafted XML document may cause XML Digital Signature validation to be entirely bypassed, causing an unsigned document to appear signed."
+GO-2021-0098,Due to the standard library behavior of exec.LookPath on Windows a number of methods may result in arbitrary code execution when cloning or operating on untrusted Git repositories.
+GO-2022-0417,"Containers are created with non-empty inheritable Linux process capabilities, permitting programs with inheritable file capabilities to elevate those capabilities to the permitted set during execve(2).
+
+This bug does not affect the container security sandbox, as the inheritable set never contains more capabilities than are included in the container's bounding set."
+GO-2023-1602,"A bug in SAML authentication library can result in Denial of Service attacks.
+
+Attackers can craft a `deflate`-compressed request which will consume significantly more memory during processing than the size of the original request. This may eventually lead to memory exhaustion and the process being killed."
+GO-2022-0980,"The text of errors returned by Template.Execute can contain Vault secrets, potentially revealing these secrets in logs or error reports."
+GO-2021-0090,"Proposed commits may contain signatures for blocks not contained within the commit. Instead of skipping these signatures, they cause failure during verification. A malicious proposer can use this to force consensus failures."
+GO-2020-0025,"Due to improper path sanitization, archives containing relative file paths can cause files to be written (or overwritten) outside of the target directory."
+GO-2021-0072,"Various storage methods do not impose limits on how much content is accepted from user requests, allowing a malicious user to force the caller to allocate an arbitrary amount of memory."
+GO-2020-0023,"Token validation methods are susceptible to a timing side-channel during HMAC comparison. With a large enough number of requests over a low latency connection, an attacker may use this to determine the expected HMAC."
+GO-2022-0300,"Malicious inputs can cause a panic.
+
+A maliciously crafted input can cause a stack overflow and panic. Any user with access to the GraphQL can send such a query.
+
+This issue only occurs when using the graphql.MaxDepth schema option (which is highly recommended in most cases)."
+GO-2022-0962,"Applications that use the strvals package in the Helm SDK to parse user supplied input can suffer a Denial of Service when that input causes a panic that cannot be recovered from.
+
+The strvals package contains a parser that turns strings into Go structures. For example, the Helm client has command line flags like --set, --set-string, and others that enable the user to pass in strings that are merged into the values. The strvals package converts these strings into structures Go can work with. Some string inputs can cause array data structures to be created causing an out of memory panic.
+
+The Helm Client will panic with input to --set, --set-string, and other value setting flags that causes an out of memory panic. Helm is not a long running service so the panic will not affect future uses of the Helm client."
+GO-2023-1497,"When the scs-library-client is used to pull a container image, with authentication, the HTTP Authorization header sent by the client to the library service may be incorrectly leaked to an S3 backing storage provider."
+GO-2022-1114,A ZipSlip vulnerability exists when using the fileutil package to unzip files.
+GO-2023-1832,An attacker who controls or compromises a registry can lead a user to verify the wrong artifact.
+GO-2020-0007,"Filters containing rules with multiple syscall arguments are improperly constructed, such that all arguments are required to match rather than any of the arguments (AND is used rather than OR). These filters can be bypassed by only specifying a subset of the arguments due to this behavior."
+GO-2021-0059,"Due to improper bounds checking, maliciously crafted JSON objects can cause an out-of-bounds panic. If parsing user input, this may be used as a denial of service vector."
+GO-2022-0444,"The TUF client is vulnerable to rollback attacks, in which an attacker causes a client to install software older than the software the client previously knew to be available."
+GO-2022-1188,An attacker can remotely supply a specially crafted input that causes uncontrolled memory allocation.
+GO-2020-0045,"CSRF tokens are generated using math/rand, which is not a cryptographically secure random number generator, allowing an attacker to predict values and bypass CSRF protections with relatively few requests."
+GO-2020-0033,"Due to improper sanitization of user input, HTTPEngine.Handle allows for directory traversal, allowing an attacker to read files outside of the target directory that the server has permission to read."
+GO-2023-1923,Panic when handling invalid HAProxy PROXY v2 request in github.com/mastercactapus/proxyprotocol
+GO-2021-0095,"Due to repeated usage of a XOR key an attacker that can eavesdrop on the TPM 1.2 transport is able to calculate usageAuth for keys created using CreateWrapKey, despite it being encrypted, allowing them to use the created key."
+GO-2023-1640,Path traversal when unzipping files in github.com/dablelv/go-huge-util
+GO-2022-0588,"The bluemonday HTML sanitizer can leak the contents of a ""style"" element into HTML output, potentially causing XSS vulnerabilities.
+
+The default bluemonday sanitization policies are not vulnerable. Only user-defined policies allowing ""select"", ""style"", and ""option"" elements are affected.
+
+Permitting the ""style"" element in policies is hazardous, because bluemonday does not contain a CSS sanitizer. Newer versions of bluemonday suppress ""style"" and ""script"" elements even when allowed by a policy unless the policy explicitly requests unsafe processing."
+GO-2021-0057,"Due to improper bounds checking, maliciously crafted JSON objects can cause an out-of-bounds panic. If parsing user input, this may be used as a denial of service vector."
+GO-2023-1578,HashiCorp go-getter is vulnerable to decompression bombs. This can lead to excessive memory consumption and denial-of-service attacks.
+GO-2021-0061,"Due to unbounded alias chasing, a maliciously crafted YAML file can cause the system to consume significant system resources. If parsing user input, this may be used as a denial of service vector."
+GO-2020-0026,"Due to improper path sanitization, archives containing relative file paths can cause files to be written (or overwritten) outside of the target directory."
+GO-2023-1535,"Unmarshalling a Server Hello can panic, which could allow a denial of service."
+GO-2020-0004,"If any of the ListenAndServe functions are called with an empty token, token authentication is disabled globally for all listeners.
+
+Also, a minor timing side channel was present allowing attackers with very low latency and able to make many requests to potentially recover the token."
+GO-2021-0108,"Due to improper input sanitization, a maliciously constructed filename could cause a file download to use an attacker controlled filename, as well as injecting additional headers into an HTTP response."
+GO-2023-1595,"Multiplication of certain unreduced P-256 scalars produce incorrect results.
+
+There are no protocols known at this time that can be attacked due to this."
+GO-2021-0102,"Due to improper input validation, a maliciously crafted input can cause a panic, due to incorrect nonce size. If this package is used to decrypt user supplied messages without checking the size of supplied nonces, this may be used as a vector for a denial of service attack."
+GO-2022-1040,"Helm does not sanitize all fields read from repository data files. A maliciously crafted data file may contain strings containing arbitrary data. If printed to a terminal, a malicious string could obscure or alter data on the screen."
+GO-2023-2098,Unsoundness in variable comparison / non-unique binary decomposition in github.com/consensys/gnark
+GO-2021-0060,"Due to the behavior of encoding/xml, a crafted XML document may cause XML Digital Signature validation to be entirely bypassed, causing an unsigned document to appear signed."
+GO-2022-0345,The RunUsingChroot function unintentionally propagates environment variables from the current process to the child process.
+GO-2021-0052,"Due to improper HTTP header sanitization, a malicious user can spoof their source IP address by setting the X-Forwarded-For header. This may allow a user to bypass IP based restrictions, or obfuscate their true source."
+GO-2022-1175,A malicious actor could remotely read local files by submitting to the Alertmanager Set Configuration API maliciously crafted inputs. Only users of the Alertmanager service where `-experimental.alertmanager.enable-api` or `enable_api: true` is configured are affected.
+GO-2021-0097,"Due to improper bounds checking, a number of methods can trigger a panic due to attempted out-of-bounds reads. If the package is used to parse user supplied input, this may be used as a vector for a denial of service attack."
+GO-2022-1117,"In certain scenarios, a malicious immudb server can provide a falsified proof that will be accepted by the client SDK signing a falsified transaction replacing the genuine one. This situation can not be triggered by a genuine immudb server and requires the client to perform a specific list of verified operations resulting in acceptance of an invalid state value.
+
+This vulnerability only affects immudb client SDKs, the immudb server itself is not affected by this vulnerability."
+GO-2023-1681,"A Time-of-check Time-of-use (TOCTOU) flaw appears in this version of podman. This issue may allow a malicious user to replace a normal file in a volume with a symlink while exporting the volume, allowing for access to arbitrary files on the host file system."
+GO-2021-0099,"Due to improper path validation, using the github.com/deislabs/oras/pkg/content.FileStore content store may result in directory traversal during archive extraction, allowing a malicious archive to write paths to arbitrary paths that the process can write to."
+GO-2023-1547,"An information disclosure vulnerability exists in the `getHostByName` template function.
+
+`getHostByName` is a Helm template function introduced in Helm v3. The function is able to accept a hostname and return an IP address for that hostname. To get the IP address the function performs a DNS lookup. The DNS lookup happens when used with `helm install|upgrade|template` or when the Helm SDK is used to render a chart.
+
+Information passed into the chart can be disclosed to the DNS servers used to lookup the IP address. For example, a malicious chart could inject `getHostByName` into a chart in order to disclose values to a malicious DNS server."
+GO-2021-0077,"A user can use a valid client certificate that contains a CommonName that matches a valid RBAC username to authenticate themselves as that user, despite lacking the required credentials. This may allow authentication bypass, but requires a certificate that is issued by a CA trusted by the server."
+GO-2020-0036,"Due to unbounded aliasing, a crafted YAML file can cause consumption of significant system resources. If parsing user supplied input, this may be used as a denial of service vector."
+GO-2023-1600,"Improper handling of payload with special characters, such as CR/LF and horizontal tab, can lead to execution of arbitrary JavaScript code."
+GO-2021-0086,"HTML content in markdown is not sanitized during rendering, possibly allowing XSS if used to render untrusted user input."
+GO-2023-1567,"Due to improper request sanitization, a crafted URL can cause the static file handler to redirect to an attacker chosen URL, allowing for open redirect attacks."
+GO-2023-1526,"Paranoidhttp before is vulnerable to SSRF because [::] is equivalent to the 127.0.0.1 address, but does not match the filter for private addresses."
+GO-2023-2024,A malicious actor can store an arbitrary amount of data in the memory of a remote node by sending the node a message with a signed peer record. Signed peer records from randomly generated peers can be sent by a malicious actor. This memory does not get garbage collected and so the remote node can run out of memory (OOM).
+GO-2022-0956,Parsing malicious or large YAML documents can consume excessive amounts of CPU or memory.
+GO-2023-1772,Systems that run distribution built after a specific commit running on memory-restricted environments can suffer from denial of service by a crafted malicious /v2/_catalog API endpoint request.
+GO-2021-0053,"Due to improper bounds checking, maliciously crafted input to generated Unmarshal methods can cause an out-of-bounds panic. If parsing messages from untrusted parties, this may be used as a denial of service vector."
+GO-2021-0089,"Parsing malformed JSON which contain opening brackets, but not closing brackets, leads to an infinite loop. If operating on untrusted user input this can be used as a denial of service vector."
+GO-2022-0272,"The Context.UploadFormFiles function is vulnerable to directory traversal attacks, and can be made to write to arbitrary locations outside the destination directory.
+
+This vulnerability only occurs when built with Go versions prior to 1.17. Go 1.17 and later strip directory paths from filenames returned by ""mime/multipart"".Part.FileName, which avoids this issue."
+GO-2022-0316,Pretty-printing an AST that contains synthetic nodes can change the logic of some statements by reordering array literals.
+GO-2020-0034,"Due to improper path sanitization, archives containing relative file paths can cause files to be written (or overwritten) outside of the target directory."
+GO-2022-0411,"Randomly-generated alphanumeric strings contain significantly less entropy than expected.
+
+The RandomAlphaNumeric and CryptoRandomAlphaNumeric functions always return strings containing at least one digit from 0 to 9. This significantly reduces the amount of entropy in short strings generated by these functions."
+GO-2022-0528,"Sending a message exactly 2000, 4000, or 6000 characters in length to Discord causes a panic."
+GO-2023-1557,"Trying to read malformed HAMT sharded directories can cause panics and virtual memory leaks. If you are reading untrusted user input, an attacker can then trigger a panic.
+
+This is caused by bogus `fanout` parameter in the HAMT directory nodes. A workaround is to not feed untrusted user data to the decoding functions."
+GO-2022-1118,"A malicious server can trick a client into treating it as a different server by changing the reported UUID.
+
+immudb client SDKs use the server's UUID to distinguish between different server instance so that the client can connect to different immudb instances and keep the state for multiple servers. The SDK does not validate this UUID and accepts any value reported by the server. A malicious server can therefore change the reported UUID and trick the client into treating it as a different server."
+GO-2022-0462,"Client-provided certificates are not correctly validated, and must not be trusted.
+
+DTLS client certificates must be accompanied by proof that the client possesses the private key for the certificate. The Pion DTLS server accepted client certificates unaccompanied by this proof, permitting an attacker to present any certificate and have it accepted as valid."
+GO-2022-0384,"The username and password credentials associated with a Helm repository can be passed to another domain referenced by that Helm repository.
+
+If the index.yaml for a Helm repository is hosted on one domain and references a chart archive on a different domain, Helm will provide the credentials for the index.yaml's domain when fetching those archives."
+GO-2022-0519,Improper validation of access tokens can permit use of expired tokens.
+GO-2020-0032,"Due to improper sanitization of user input, Controller.FileHandler allows for directory traversal, allowing an attacker to read files outside of the target directory that the server has permission to read."
+GO-2022-1187,A user controlled string could lead to open redirect.
+GO-2022-0391,"The AWS S3 Crypto SDK sends an unencrypted hash of the plaintext alongside the ciphertext as a metadata field. This hash can be used to brute force the plaintext, if the hash is readable to the attacker.
+
+AWS now blocks this metadata field, but older SDK versions still send it."
+GO-2022-0629,"Modifying pod status allows host directory traversal.
+
+Kubernetes Secrets Store CSI Driver allows an attacker who can modify a SecretProviderClassPodStatus/Status resource the ability to write content to the host filesystem and sync file contents to Kubernetes Secrets. This includes paths under var/lib/kubelet/pods that contain other Kubernetes Secrets."
+GO-2021-0088,"Skip ignores unknown fields, rather than failing. A malicious user can craft small messages with unknown fields which can take significant resources to parse. If a server accepts messages from an untrusted user, it may be used as a denial of service vector."
+GO-2022-1148,"go-libp2p is vulnerable to targeted resource exhaustion attacks.
+
+These attacks target libp2p's connection, stream, peer, and memory management. An attacker can cause the allocation of large amounts of memory ultimately leading to the process getting killed by the host's operating system.
+
+While a connection manager tasked with keeping the number of connections within manageable limits has been part of go-libp2p, this component was designed to handle the regular churn of peers, not a targeted resource exhaustion attack.
+
+It's recommend to update to v0.21.0 onwards to get some useful functionality that will help in production environments like better metrics around resource usage, Grafana dashboards around resource usage, allow list support, and default autoscaling limits."
+GO-2023-2000,"Large RSA keys can lead to resource exhaustion attacks.
+
+With fix, the size of RSA keys transmitted during handshakes is restricted to <= 8192 bits."
+GO-2022-1213,"The Options.Secure value is ignored, and cookies created by Generate never have the secure attribute."
+GO-2022-0755,Rancher 2 is vulnerable to a Cross-Site Websocket Hijacking attack that allows an exploiter to gain access to clusters managed by Rancher.
+GO-2021-0054,"Due to improper bounds checking, maliciously crafted JSON objects can cause an out-of-bounds panic. If parsing user input, this may be used as a denial of service vector."
+GO-2023-2137,"A custom credentials object that does not implement the fmt.Stringer interface may leak sensitive information (e.g., credentials) via logs."
+GO-2021-0073,Arbitrary command execution can be triggered by improperly sanitized SSH URLs in LFS configuration files. This can be triggered by cloning a malicious repository.
+GO-2021-0084,"Session data is stored using permissive permissions, allowing local users with filesystem access to read arbitrary data."
+GO-2021-0081,"The HTTP client used to connect to the container registry authorization service explicitly disables TLS verification, allowing an attacker that is able to MITM the connection to steal credentials."
+GO-2023-1549,"Low-privileged users can set the seccomp profile for pods they control to ""unconfined.""
+
+By default, the seccomp profile used in the restricted-v2 Security Context Constraint (SCC) is ""runtime/default,"" allowing users to disable seccomp for pods they can create and modify."
+GO-2021-0104,"Due to improper error handling, DTLS connections were not killed when certificate verification failed, causing users who did not check the connection state to continue to use the connection. This could allow allow an attacker which holds the ICE password, but not a valid certificate, to bypass this restriction."
+GO-2022-1167,"Applications that use the strvals package in the Helm SDK to parse user supplied input can suffer a Denial of Service when that input causes an error that cannot be recovered from.
+
+The strvals package contains a parser that turns strings into Go structures. For example, the Helm client has command line flags like --set, --set-string, and others that enable the user to pass in strings that are merged into the values. The strvals package converts these strings into structures Go can work with. Some string inputs can cause can cause a stack overflow to be created causing a stack overflow error. Stack overflow errors cannot be recovered from.
+
+The Helm Client will panic with input to --set, --set-string, and other value setting flags that causes a stack overflow. Helm is not a long running service so the error will not affect future uses of the Helm client."
+GO-2021-0083,"TLS certificate verification is skipped when connecting to a MQTT server. This allows an attacker who can MITM the connection to read, or forge, messages passed between the client and server."
+GO-2022-0952,"Power level parsing does not parse the ""events_default"" key of the m.room.power_levels event, setting the event default power level to zero in all cases. This can cause events to be improperly accepted or rejected in rooms where the event_default power level has been changed."
+GO-2021-0412,"The imgcrypt library provides API extensions for containerd to support encrypted container images and implements the ctd-decoder command line tool for use by containerd to decrypt encrypted container images. The imgcrypt function `CheckAuthorization` is supposed to check whether the current used is authorized to access an encrypted image and prevent the user from running an image that another user previously decrypted on the same system. In versions prior to 1.1.4, a failure occurs when an image with a ManifestList is used and the architecture of the local host is not the first one in the ManifestList. Only the first architecture in the list was tested, which may not have its layers available locally since it could not be run on the host architecture. Therefore, the verdict on unavailable layers was that the image could be run anticipating that image run failure would occur later due to the layers not being available. However, this verdict to allow the image to run enabled other architectures in the ManifestList to run an image without providing keys if that image had previously been decrypted. A patch has been applied to imgcrypt 1.1.4. Workarounds may include usage of different namespaces for each remote user."
+GO-2020-0043,"Due to improper TLS verification when serving traffic for multiple SNIs, an attacker may bypass TLS client authentication by indicating an SNI during the TLS handshake that is different from the name in the HTTP Host header."
+GO-2021-0071,"A race between chown and chmod operations during a container filesystem shift may allow a user who can modify the filesystem to chmod an arbitrary path of their choice, rather than the expected path."
+GO-2022-1178,"Errors returned by ghinstallation.Transport can include the JWT used for the failed operation. If the error is exposed to an untrusted party, this JWT could be extracted and used to authenticate further requests."
+GO-2022-0619,"CORS filters that use an AllowedDomains configuration parameter can match domains outside the specified set, permitting an attacker to avoid the CORS policy.
+
+The AllowedDomains configuration parameter is documented as a list of allowed origin domains, but values in this list are applied as regular expression matches. For example, an allowed domain of ""example.com"" will match the Origin header ""example.com.malicious.domain""."
+GO-2022-0435,"A crafted scalar input longer than 32 bytes can cause P256().ScalarMult or P256().ScalarBaseMult to panic. Indirect uses through crypto/ecdsa and crypto/tls are unaffected. amd64, arm64, ppc64le, and s390x are unaffected."
+GO-2022-0521,Calling Decoder.Skip when parsing a deeply nested XML document can cause a panic due to stack exhaustion.
+GO-2022-0220,"Go on Windows misused certain LoadLibrary functionality, leading to DLL injection."
+GO-2022-0166,"The Verify function in crypto/dsa passed certain parameters unchecked to the underlying big integer library, possibly leading to extremely long-running computations, which in turn makes Go programs vulnerable to remote denial of service attacks. Programs using HTTPS client certificates or the Go SSH server libraries are both exposed to this vulnerability."
+GO-2021-0227,Clients can cause a panic in SSH servers. An attacker can craft an authentication request message for the “gssapi-with-mic” method which will cause NewServerConn to panic via a nil pointer dereference if ServerConfig.GSSAPIWithMICConfig is nil.
+GO-2022-0192,"The Parse function can panic on some invalid inputs.
+
+For example, the Parse function panics on the input ""<math><template><mo><template>""."
+GO-2022-0197,"The Parse function can panic on some invalid inputs.
+
+For example, the Parse function panics on the input ""<svg><template><desc><t><svg></template>""."
+GO-2022-0515,Calling any of the Parse functions on Go source code which contains deeply nested types or declarations can cause a panic due to stack exhaustion.
+GO-2022-0247,"When invoking functions from WASM modules, built using GOARCH=wasm GOOS=js, passing very large arguments can cause portions of the module to be overwritten with data from the arguments due to a buffer overflow error.
+
+If using wasm_exec.js to execute WASM modules, users will need to replace their copy (as described in https://golang.org/wiki/WebAssembly#getting-started) after rebuilding any modules."
+GO-2021-0142,"ReadUvarint and ReadVarint can read an unlimited number of bytes from invalid inputs.
+
+Certain invalid inputs to ReadUvarint or ReadVarint can cause these functions to read an unlimited number of bytes from the ByteReader parameter before returning an error. This can lead to processing more input than expected when the caller is reading directly from a network and depends on ReadUvarint or ReadVarint only consuming a small, bounded number of bytes, even from invalid inputs."
+GO-2022-0526,Calling Decoder.Decode on a message which contains deeply nested structures can cause a panic due to stack exhaustion.
+GO-2022-0190,"The ""go get"" command is vulnerable to directory traversal when executed with the import path of a malicious Go package which contains curly brace (both '{' and '}' characters).
+
+Specifically, it is only vulnerable in GOPATH mode, but not in module mode (the distinction is documented at https://golang.org/cmd/go/#hdr-Module_aware_go_get). The attacker can cause an arbitrary filesystem write, which can lead to code execution."
+GO-2022-0189,"The ""go get"" command is vulnerable to remote code execution when executed with the -u flag and the import path of a malicious Go package, or a package that imports it directly or indirectly.
+
+Specifically, it is only vulnerable in GOPATH mode, but not in module mode (the distinction is documented at https://golang.org/cmd/go/#hdr-Module_aware_go_get).
+
+Using custom domains, it's possible to arrange things so that a Git repository is cloned to a folder named "".git"" by using a vanity import path that ends with ""/.git"". If the Git repository root contains a ""HEAD"" file, a ""config"" file, an ""objects"" directory, a ""refs"" directory, with some work to ensure the proper ordering of operations, ""go get -u"" can be tricked into considering the parent directory as a repository root, and running Git commands on it. That will use the ""config"" file in the original Git repository root for its configuration, and if that config file contains malicious commands, they will execute on the system running ""go get -u"".
+
+Note that forbidding import paths with a .git element might not be sufficient to mitigate this issue, as on certain systems there can be other aliases for VCS state folders."
+GO-2022-0535,"A Windows vulnerability allows attackers to spoof valid certificate chains when the system root store is in use.
+
+A workaround is present in Go 1.12.6+ and Go 1.13.7+, but affected users should additionally install the Windows security update to protect their system.
+
+See https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2020-0601 for details on the Windows vulnerability."
+GO-2022-0536,"Some HTTP/2 implementations are vulnerable to a reset flood, potentially leading to a denial of service.
+
+Servers that accept direct connections from untrusted clients could be remotely made to allocate an unlimited amount of memory, until the program crashes. The attacker opens a number of streams and sends an invalid request over each stream that should solicit a stream of RST_STREAM frames from the peer. Depending on how the peer queues the RST_STREAM frames, this can consume excess memory, CPU, or both."
+GO-2022-0525,"The HTTP/1 client accepted some invalid Transfer-Encoding headers as indicating a ""chunked"" encoding. This could potentially allow for request smuggling, but only if combined with an intermediate server that also improperly failed to reject the header as invalid."
+GO-2022-0217,"A DoS vulnerability in the crypto/elliptic implementations of the P-521 and P-384 elliptic curves may let an attacker craft inputs that consume excessive amounts of CPU.
+
+These inputs might be delivered via TLS handshakes, X.509 certificates, JWT tokens, ECDH shares or ECDSA signatures. In some cases, if an ECDH private key is reused more than once, the attack can also lead to key recovery."
+GO-2021-0172,"When parsing large multipart/form-data, an attacker can cause a HTTP server to open a large number of file descriptors. This may be used as a denial-of-service vector."
+GO-2020-0015,"An attacker could provide a single byte to a UTF16 decoder instantiated with UseBOM or ExpectBOM to trigger an infinite loop if the String function on the Decoder is called, or the Decoder is passed to transform.String. If used to parse user supplied input, this may be used as a denial of service vector."
+GO-2023-1992,"The clearsign package accepts some malformed messages, making it possible for an attacker to trick a human user (but not a Go program) into thinking unverified text is part of the message.
+
+With fix, messages with malformed headers in the SIGNED MESSAGE section are rejected."
+GO-2021-0240,"NewReader and OpenReader can cause a panic or an unrecoverable fatal error when reading an archive that claims to contain a large number of files, regardless of its actual size."
+GO-2022-0213,"Invalid DSA public keys can cause a panic in dsa.Verify. In particular, using crypto/x509.Verify on a crafted X.509 certificate chain can lead to a panic, even if the certificates don't chain to a trusted root. The chain can be delivered via a crypto/tls connection to a client, or to a server that accepts and verifies client certificates. net/http clients can be made to crash by an HTTPS server, while net/http servers that accept client certificates will recover the panic and are unaffected.
+
+Moreover, an application might crash invoking crypto/x509.(*CertificateRequest).CheckSignature on an X.509 certificate request, parsing a golang.org/x/crypto/openpgp Entity, or during a golang.org/x/crypto/otr conversation. Finally, a golang.org/x/crypto/ssh client can panic due to a malformed host key, while a server could panic if either PublicKeyCallback accepts a malformed public key, or if IsUserAuthority accepts a certificate with a malformed public key."
+GO-2022-0520,"Client IP adresses may be unintentionally exposed via X-Forwarded-For headers.
+
+When httputil.ReverseProxy.ServeHTTP is called with a Request.Header map containing a nil value for the X-Forwarded-For header, ReverseProxy sets the client IP as the value of the X-Forwarded-For header, contrary to its documentation.
+
+In the more usual case where a Director function sets the X-Forwarded-For header value to nil, ReverseProxy leaves the header unmodified as expected."
+GO-2021-0245,ReverseProxy can panic after encountering a problem copying a proxied response body.
+GO-2021-0223,"On Windows, if VerifyOptions.Roots is nil, Certificate.Verify does not check the EKU requirements specified in VerifyOptions.KeyUsages. This may allow a certificate to be used for an unintended purpose."
+GO-2022-0209,"XORKeyStream generates incorrect and insecure output for very large inputs.
+
+If more than 256 GiB of keystream is generated, or if the counter otherwise grows greater than 32 bits, the amd64 implementation will first generate incorrect output, and then cycle back to previously generated keystream. Repeated keystream bytes can lead to loss of confidentiality in encryption applications, or to predictability in CSPRNG applications.
+
+The issue might affect uses of golang.org/x/crypto/nacl with extremely large messages.
+
+Architectures other than amd64 and uses that generate less than 256 GiB of keystream for a single salsa20.XORKeyStream invocation are unaffected."
+GO-2020-0014,"html.Parse does not properly handle ""select"" tags, which can lead to an infinite loop. If parsing user supplied input, this may be used as a denial of service vector."
+GO-2022-0524,Calling Reader.Read on an archive containing a large number of concatenated 0-length compressed files can cause a panic due to stack exhaustion.
+GO-2021-0224,HTTP servers where the Handler concurrently reads the request body and writes a response can encounter a data race and crash. The httputil.ReverseProxy Handler is affected.
+GO-2021-0319,Some big.Int values that are not valid field elements (negative or overflowing) might cause Curve.IsOnCurve to incorrectly return true. Operating on those values may cause a panic or an invalid curve operation. Note that Unmarshal will never return such values.
+GO-2022-0236,"A malicious HTTP server or client can cause the net/http client or server to panic.
+
+ReadRequest and ReadResponse can hit an unrecoverable panic when reading a very large header (over 7MB on 64-bit architectures, or over 4MB on 32-bit ones). Transport and Client are vulnerable and the program can be made to crash by a malicious server. Server is not vulnerable by default, but can be if the default max header of 1MB is overridden by setting Server.MaxHeaderBytes to a higher value, in which case the program can be made to crash by a malicious client.
+
+This also affects golang.org/x/net/http2/h2c and HeaderValuesContainsToken in golang.org/x/net/http/httpguts."
+GO-2022-0193,"The Parse function can panic on some invalid inputs.
+
+For example, the Parse function panics on the input ""<template><tBody><isindex/action=0>""."
+GO-2021-0159,"HTTP headers were not properly parsed, which allows remote attackers to conduct HTTP request smuggling attacks via a request that contains Content-Length and Transfer-Encoding header fields."
+GO-2022-0273,"The NewReader and OpenReader functions in archive/zip can cause a panic or an unrecoverable fatal error when reading an archive that claims to contain a large number of files, regardless of its actual size. This is caused by an incomplete fix for CVE-2021-33196."
+GO-2021-0317,Rat.SetString had an overflow issue that can lead to uncontrolled memory consumption.
+GO-2022-0318,"Incorrect access control is possible in the go command.
+
+The go command can misinterpret branch names that falsely appear to be version tags. This can lead to incorrect access control if an actor is authorized to create branches but not tags."
+GO-2021-0235,"The P224() Curve implementation can in rare circumstances generate incorrect outputs, including returning invalid points from ScalarMult."
+GO-2022-0531,"An attacker can correlate a resumed TLS session with a previous connection.
+
+Session tickets generated by crypto/tls do not contain a randomly generated ticket_age_add, which allows an attacker that can observe TLS handshakes to correlate successive connections by comparing ticket ages during session resumption."
+GO-2022-0212,"net/http (through net/textproto) used to accept and normalize invalid HTTP/1.1 headers with a space before the colon, in violation of RFC 7230.
+
+If a Go server is used behind an uncommon reverse proxy that accepts and forwards but doesn't normalize such invalid headers, the reverse proxy and the server can interpret the headers differently. This can lead to filter bypasses or request smuggling, the latter if requests from separate clients are multiplexed onto the same upstream connection by the proxy. Such invalid headers are now rejected by Go servers, and passed without normalization to Go client applications."
+GO-2022-0523,Unmarshaling an XML document into a Go struct which has a nested field that uses the 'any' field tag can panic due to stack exhaustion.
+GO-2022-0477,"On Windows, rand.Read will hang indefinitely if passed a buffer larger than 1 << 32 - 1 bytes."
+GO-2021-0242,Rat.SetString and Rat.UnmarshalText may cause a panic or an unrecoverable fatal error if passed inputs with very large exponents.
+GO-2021-0238,An attacker can craft an input to ParseFragment that causes it to enter an infinite loop and never return.
+GO-2022-0532,"On Windows, executing Cmd.Run, Cmd.Start, Cmd.Output, or Cmd.CombinedOutput when Cmd.Path is unset will unintentionally trigger execution of any binaries in the working directory named either ""..com"" or ""..exe""."
+GO-2022-0475,"The go command may execute arbitrary code at build time when cgo is in use. This may occur when running go get on a malicious package, or any other command that builds untrusted code.
+
+This can be caused by malicious unquoted symbol name in a linked object file."
+GO-2021-0154,"When SessionTicketsDisabled is enabled, crypto/tls allowed man-in-the-middle attackers to spoof clients via unspecified vectors.
+
+If the server enables TLS client authentication using certificates (this is rare) and explicitly sets SessionTicketsDisabled to true in the tls.Config, then a malicious client can falsely assert ownership of any client certificate it wishes."
+GO-2021-0160,"Int.Exp Montgomery mishandled carry propagation and produced an incorrect output, which makes it easier for attackers to obtain private RSA keys via unspecified vectors.
+
+This issue can affect RSA computations in crypto/rsa, which is used by crypto/tls. TLS servers on 32-bit systems could plausibly leak their RSA private key due to this issue. Other protocol implementations that create many RSA signatures could also be impacted in the same way.
+
+Specifically, incorrect results in one part of the RSA Chinese Remainder computation can cause the result to be incorrect in such a way that it leaks one of the primes. While RSA blinding should prevent an attacker from crafting specific inputs that trigger the bug, on 32-bit systems the bug can be expected to occur at random around one in 2^26 times. Thus collecting around 64 million signatures (of known data) from an affected server should be enough to extract the private key used.
+
+Note that on 64-bit systems, the frequency of the bug is so low (less than one in 2^50) that it would be very difficult to exploit."
+GO-2021-0263,"Calling File.ImportedSymbols on a loaded file which contains an invalid dynamic symbol table command can cause a panic, in particular if the encoded number of undefined symbols is larger than the number of symbols in the symbol table."
+GO-2021-0226,"When a Handler does not explicitly set the Content-Type header, the the package would default to “text/html”, which could cause a Cross-Site Scripting vulnerability if an attacker can control any part of the contents of a response.
+
+The Content-Type header is now set based on the contents of the first Write using http.DetectContentType, which is consistent with the behavior of the net/http package.
+
+Although this protects some applications that validate the contents of uploaded files, not setting the Content-Type header explicitly on any attacker-controlled file is unsafe and should be avoided."
+GO-2021-0356,"Attackers can cause a crash in SSH servers when the server has been configured by passing a Signer to ServerConfig.AddHostKey such that
+1) the Signer passed to AddHostKey does not implement AlgorithmSigner, and
+2) the Signer passed to AddHostKey returns a key of type “ssh-rsa” from its PublicKey method.
+
+Servers that only use Signer implementations provided by the ssh package are unaffected."
+GO-2021-0234,"The Decode, DecodeElement, and Skip methods of an xml.Decoder provided by xml.NewTokenDecoder may enter an infinite loop when operating on a custom xml.TokenReader which returns an EOF in the middle of an open XML element."
+GO-2022-0434,"Verifying certificate chains containing certificates which are not compliant with RFC 5280 causes Certificate.Verify to panic on macOS.
+
+These chains can be delivered through TLS and can cause a crypto/tls or net/http client to crash."
+GO-2020-0012,"An attacker can craft an ssh-ed25519 or sk-ssh-ed25519@openssh.com public key, such that the library will panic when trying to verify a signature with it. If verifying signatures using user supplied public keys, this may be used as a denial of service vector."
+GO-2022-0191,"The crypto/x509 package does not limit the amount of work performed for each chain verification, which might allow attackers to craft pathological inputs leading to a CPU denial of service. Go TLS servers accepting client certificates and TLS clients verifying certificates are affected."
+GO-2022-0537,"Decoding big.Float and big.Rat types can panic if the encoded message is too short, potentially allowing a denial of service."
+GO-2021-0067,"Using Reader.Open on an archive containing a file with a path prefixed by ""../"" will cause a panic due to a stack overflow. If parsing user supplied archives, this may be used as a denial of service vector."
+GO-2021-0347,"On 64-bit platforms, an extremely deeply nested expression can cause regexp.Compile to cause goroutine stack exhaustion, forcing the program to exit. Note this applies to very large expressions, on the order of 2MB."
+GO-2022-0289,"When a Go program running on a Unix system is out of file descriptors and calls syscall.ForkExec (including indirectly by using the os/exec package), syscall.ForkExec can close file descriptor 0 as it fails. If this happens (or can be provoked) repeatedly, it can result in misdirected I/O such as writing network traffic intended for one connection to a different connection, or content intended for one file to a different one.
+
+For users who cannot immediately update to the new release, the bug can be mitigated by raising the per-process file descriptor limit."
+GO-2022-0171,"On Darwin, user's trust preferences for root certificates were not honored. If the user had a root certificate loaded in their Keychain that was explicitly not trusted, a Go program would still verify a connection using that root certificate."
+GO-2021-0069,A number of math/big.Int methods can panic when provided large inputs due to a flawed division method.
+GO-2022-0533,"On Windows, the filepath.Clean function can convert certain invalid paths to valid, absolute paths, potentially allowing a directory traversal attack.
+
+For example, Clean(`.\c:`) returns `c:`."
+GO-2022-0761,"An input validation flaw in the CGI components allows the HTTP_PROXY environment variable to be set by the incoming Proxy header, which changes where Go by default proxies all outbound HTTP requests.
+
+This environment variable is also used to set the outgoing proxy, enabling an attacker to insert a proxy into outgoing requests of a CGI program.
+
+Read more about ""httpoxy"" here: https://httpoxy.org."
+GO-2021-0163,Untrusted search path vulnerability on Windows related to LoadLibrary allows local users to gain privileges via a malicious DLL in the current working directory.
+GO-2021-0243,crypto/tls clients can panic when provided a certificate of the wrong type for the negotiated parameters. net/http clients performing HTTPS requests are also affected.
+GO-2021-0113,"Due to improper index calculation, an incorrectly formatted language tag can cause Parse to panic via an out of bounds read. If Parse is used to process untrusted user inputs, this may be used as a vector for a denial of service attack."
+GO-2021-0241,"ReverseProxy can be made to forward certain hop-by-hop headers, including Connection. If the target of the ReverseProxy is itself a reverse proxy, this lets an attacker drop arbitrary headers, including those set by the ReverseProxy.Director."
+GO-2021-0239,"The LookupCNAME, LookupSRV, LookupMX, LookupNS, and LookupAddr functions and their respective methods on the Resolver type may return arbitrary values retrieved from DNS which do not follow the established RFC 1035 rules for domain names. If these names are used without further sanitization, for instance unsafely included in HTML, they may allow for injection of unexpected content. Note that LookupTXT may still return arbitrary values that could require sanitization before further use."
+GO-2020-0013,By default host key verification is disabled which allows for man-in-the-middle attacks against SSH clients if ClientConfig.HostKeyCallback is not set.
+GO-2021-0264,"Previously, opening a zip with (*Reader).Open could result in a panic if the zip contained a file whose name was exclusively made up of slash characters or "".."" path elements.
+
+Open could also panic if passed the empty string directly as an argument.
+
+Now, any files in the zip whose name could not be made valid for fs.FS.Open will be skipped, and no longer added to the fs.FS file list, although they are still accessible through (*Reader).File.
+
+Note that it was already the case that a file could be accessible from (*Reader).Open with a name different from the one in (*Reader).File, as the former is the cleaned name, while the latter is the original one.
+
+Finally, the actual panic site was made robust as a defense-in-depth measure."
+GO-2021-0078,"The HTML parser does not properly handle ""in frameset"" insertion mode, and can be made to panic when operating on malformed HTML that contains <template> tags. If operating on user input, this may be a vector for a denial of service attack."
+GO-2022-0211,"The url.Parse function accepts URLs with malformed hosts, such that the Host field can have arbitrary suffixes that appear in neither Hostname() nor Port(), allowing authorization bypasses in certain applications."

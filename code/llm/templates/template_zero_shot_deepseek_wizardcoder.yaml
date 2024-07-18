@@ -1,0 +1,12 @@
+_type: prompt
+input_variables:
+    ["system_prompt", "examples", "user_message"]
+template:
+    "{system_prompt}
+
+
+    ### Instruction:
+
+    {user_message}
+
+    ### Response:"

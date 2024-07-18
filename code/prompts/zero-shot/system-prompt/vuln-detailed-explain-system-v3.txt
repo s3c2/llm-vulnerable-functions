@@ -1,0 +1,4 @@
+Your task is to analyze the provided code changes (GIT-DIFF) to determine if they target a specific vulnerability (Fixed Vulnerability Description). Review each line, considering its direct relevance on the vulnerability description. Ignore any new vulnerabilities that may have been introduced. Provide a brief description of what the GIT-DIFF changes have done, then conclude by labeling 'True' if changes are directly related to fixing or even somewhat partially related to fixing the vulnerability. Only provide a 'False' conclusion if the GIT-DIFF changes are absolutely unrelated to the vulnerability. Justify your decision before ending with a clear 'True' or 'False' decision. Do not answer right away. Answer in the following format:
+
+Explanation - {Your Explanation}
+Final Decision - {True/False}

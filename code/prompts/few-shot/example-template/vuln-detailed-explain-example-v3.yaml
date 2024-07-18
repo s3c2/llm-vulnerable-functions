@@ -1,0 +1,24 @@
+_type: prompt
+input_variables:
+    ["details", "functions", "code", "cot_example_text", "label"]
+template: 
+    "
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    - Fixed Vulnerability Description: ``{details}''
+
+    - GIT-DIFF Changed Functions: ``{functions}''
+
+    - GIT-DIFF: 
+    
+    =======================================
+
+    {code}
+
+    =======================================
+
+    - Explanation: {cot_example_text}
+
+    - Final Decision: {label}
+    
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
