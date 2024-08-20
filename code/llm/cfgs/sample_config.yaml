@@ -16,11 +16,11 @@ paths:
   
 # Data
 data:
-  patchparser: final-patchparser-data-2023-10-31-updated.csv
+  patchparser: patchparser-data-2023-10-31.csv
   go_advisory: govulndb-2023-10-26.csv
   go_similar_description: govulndb-similar-descriptions-2023-10-31.csv
-  test: False
-  test_amount: 2
+  test: True # Set to False if you want to run across all data
+  test_amount: 5
   debug_test_range: False # Specify a specific test range of idx's
   debug_test_start: 32
   debug_test_end: 36
@@ -64,12 +64,12 @@ prompts:
   template_few_shot: template_few_shot_llama.yaml
 
   # these will be dynamically set
-  # e.g., /prompts/few-shot/system-prompts/basic-v1.txt
+  # e.g., /prompts/few-shot/system-prompts/vuln-detailed-explain-user-v3.txt
   system_prompt_type: [vuln-detailed-explain] #[basic, detailed, vuln-detailed, vuln-detailed-explain]
   system_prompt_version: 3
 
   # these will be dynamically set
-  # e.g., /prompts/few-shot/example-template/basic-v1.txt
+  # e.g., /prompts/few-shot/example-template/vuln-detailed-explain-user-v3.txt
   example_template_version: 3
   example_type: [git-hunk] # [static, random, description, git-hunk]
   example_amount: [5] # [1, 3, 5, 7, 10, 20]
@@ -81,7 +81,7 @@ prompts:
   example_sort_last_random_amount: 2 # How many of the last samples to sort. Must be less than example_amount
 
   # these will be dynamically set
-  # e.g., /prompts/user-template/basic-v1.txt
+  # e.g., /prompts/user-template/vuln-detailed-explain-user-v3.txt
   user_template_version: 3
 
 # Set generation configs
@@ -116,16 +116,16 @@ log_prob:
 
 # determine if we want to save results
 results:
-  save_results: True
+  save_results: False
   full_results: full_results_config_{CONFIG_VER}.csv
   agg_results: agg_results_config_{CONFIG_VER}.csv
-  rag_logs: True # log and the retrival FAISS scores
+  rag_logs: False # log and the retrival FAISS scores
 
 
 # Weights and Biases Logging
 # Logging Weights and Biases
 wandb:
   mode: 'online'  # ['disabled', 'offline', 'online']
-  project: vuln-funcs
+  project: your-project
   group: cot_v0
   log_results: False

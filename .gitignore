@@ -1,3 +1,6 @@
+# The data is in /data/patchparser-data.tar.gz
+/data/patchparser-data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

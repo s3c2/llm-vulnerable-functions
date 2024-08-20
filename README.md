@@ -11,10 +11,14 @@ This repository contains the code and data of our research on pairing security a
 
 ### Environment Configuration
 
-1. **Workspace Setup**: Update the `.env` file with your workspace directory where you prefer to save files:
+1. **Workspace Setup**: Update the `.env` file with your workspace directory where you prefer to save files. Also allows for parsing GitHub data and loading data to WANDB if you prefer:
 
     ```plaintext
     WORKSPACE_FOLDER={YOUR_WORKSPACE}
+    PYTHONPATH=${WORKSPACE_FOLDER}/
+    GITHUB_TOKEN={YOUR_TOKEN}
+    GITHUB_USERNAME={YOUR_USERNMAE}
+    WANDB_KEY={YOUR_WANDB_KEY}
     ```
 
 2. **YAML Configuration**: Modify paths in `./code/llm/cfgs/sample_config.yaml` to point to your directories. This configuration file is essential for driving the LLM.
@@ -45,6 +49,21 @@ Ensure the model paths are correctly set in the configuration:
 ```yaml
 models:
   base: {UPDATE THESE PATHS}
+```
+### Data
+
+Extract the CSVs in ```/data/patchparser-data.tar.gz```:
+
+```shell
+mkdir ./data/patchparser-data
+tar -xzf ./data/patchparser-data.tar.gz -C ./data/patchparser-data/
+```
+This will create:
+```shell
+$ ls ./data/patchparser-data
+govulndb-cot-examples-fp-2023-10-31.csv  
+govulndb-cot-examples-tp-2023-10-31.csv  
+patchparser-data-2023-10-31.csv
 ```
 
 ### Environment Setup

@@ -33,7 +33,7 @@ warnings.filterwarnings('ignore', category=UserWarning)
 
 # check if in debug mode:
 # is_debugger = logger_helper.debugger_is_active()
-is_debugger = True
+is_debugger = False
 
 # if debugger is active we can manually change values
 if is_debugger:

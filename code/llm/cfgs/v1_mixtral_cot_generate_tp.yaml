@@ -1,0 +1,63 @@
+# YAML file listing config parameters
+# Paths
+paths:
+  base: ****************UPDATE_ME_TO_YOUR_CLONE_PATH******************
+  data: /code/data/
+  patchparser: /data/patchparser-data/
+  advisory: /data/advisory-data/
+  results: /data/model-results-few-examples/
+  rag_db: /data/rag-db/
+
+  template: /code/llm/templates/
+  few_shot_system_prompts: /code/prompts/few-shot/system-prompt/
+  zero_shot_system_prompts: /code/prompts/zero-shot/system-prompt/
+  user_template: /code/prompts/user-template/
+  example_template: /code/prompts/few-shot/example-template/
+  
+# Data
+data:
+  patchparser: patchparser-data-2023-10-31.csv
+  go_advisory: govulndb-2023-10-26.csv
+  go_similar_description: govulndb-similar-descriptions-2023-10-31.csv
+  test: True
+  test_amount: 2
+  do_missed_results: False
+  do_missed_results_file: full_results_config_few-shot_vuln-detailed-explain-system-v1_vuln-detailed-explain-user-v1_vuln-detailed-explain-example-v1_description_5eg_alt_descending_Mixtral-8x7B-Instruct-v0.1.csv
+  clean_advisory_details: True # removes extra & new lines from the details string
+  tp_cot_examples: govulndb-cot-examples-tp-2024-08-20.csv # created from cot-generate-tp-example.py
+  fp_cot_examples: govulndb-cot-examples-fp-2024-08-20.csv # created from cot-generate-fp-example.py
+
+# Set the different CodeLlama Types
+models:
+  base: ****************UPDATE_ME_TO_YOUR_MODEL_CLONE_PATH******************
+  model_name: Mixtral-8x7B-Instruct-v0.1/ 
+  config_file: v1_mixtral_cot_generate_tp.yaml
+  
+# Set the prompts to use in the model
+prompts:
+  paradigm: [zero] # [zero, few]
+  template_zero_shot: template_zero_shot_mixtral.yaml
+  template_few_shot: template_few_shot_mixtral.yaml
+
+  # these will be dynamically set
+  system_prompt_type: [generate-cot-examples-tp]
+  system_prompt_version: 1
+
+  # these will be dynamically set
+  user_template_version: 1
+
+# Set generation configs
+gen_cfg:
+  device_map: auto # [auto, cuda:0]
+  batch_device_map: cuda # [cuda, cuda:0]
+  load_in_8bit: False
+  load_in_4bit: True
+  do_sample: True 
+  max_new_tokens: 1000
+  top_p: 0.9
+  top_k: 50
+  temperature: 0.1
+  repetition_penalty: 1.15
+  return_dict_in_generate: True
+  output_scores: True
+  num_return_sequences: 1

@@ -1,0 +1,22 @@
+_type: prompt
+input_variables:
+    ["user_details", "user_functions", "user_code"]
+template: 
+    "Here's the fixed vulnerability description and the GIT-DIFF:
+    
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    - Fixed Vulnerability Description: ``{details}''
+
+    - GIT-DIFF Changed Functions: ``{functions}''
+
+    - GIT-DIFF: 
+    
+    =======================================
+
+    {code}
+
+    =======================================
+    
+    Review the Fixed Vulnerability Description and GIT-DIFF carefully, then explain how the GIT-DIFF fixed the vulnerability. 
+    "
